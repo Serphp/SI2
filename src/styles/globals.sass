@@ -1,0 +1,93 @@
+$body-color: #333
+$body-font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif
+$body-background-color: #fff
+
+html,
+body
+  padding: 0 //
+  margin: 0 //
+  font-family: $body-font-family
+  min-height: 100vh
+  background-image: linear-gradient(to bottom, #2e026d, #15162c)
+
+a
+  color: inherit //
+  text-decoration: none
+
+*
+  box-sizing: border-box
+
+h1, h2, h3, h4, h5, h6
+  margin: 0
+  font-weight: 600
+
+p
+  margin: 0
+
+nav
+  // position: relative
+  display: flex
+  width: 100%
+  justify-content: space-between
+  background-color: #ffffff0c
+  color: #000000
+
+.navcon
+  display: flex
+  flex-direction: row
+  align-items: center
+  gap: 5px
+
+.navimg
+  display: block
+  height: 2rem
+  border-radius: 50%
+
+.nav-wrapper
+  display: flex
+  justify-content: space-between
+  width: 100%
+  max-width: 1200px
+  margin: 0 auto
+  padding: 0 1rem
+
+.brand-logo
+  height: 2rem
+  margin: 0.5rem 0
+
+.logo
+  height: 2rem
+
+.menu
+  display: flex
+  gap: 1rem
+  align-items: center
+
+.menu li
+  margin: 0 0.5rem
+
+.menu li a
+  color: #c6c6c6
+  opacity: 0.5
+  font-weight: 600
+  font-size: 0.9rem
+  padding: 0.5rem 1rem
+  border-radius: 0.5rem
+  transition: all 0.3s ease
+
+.menu li a:hover
+  opacity: 1
+  background-color: #0000000d
+
+.menu li a.active
+  background-color: #0000000d
+
+nav ul
+  margin: 0
+  padding: 0
+  list-style: none
+
+button
+  border: 0
+  outline: 0
+  background: transparent

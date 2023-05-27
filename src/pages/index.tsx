@@ -1,4 +1,5 @@
 import styles from "./index.module.css";
+
 import { type NextPage } from "next";
 import { signIn, signOut, useSession } from "next-auth/react";
 import Head from "next/head";
@@ -61,6 +62,8 @@ export default Home;
 const AuthShowcase: React.FC = () => {
   const { data: sessionData } = useSession();
 
+  console.log(sessionData);
+
   const { data: secretMessage } = api.example.getSecretMessage.useQuery(
     undefined, // no input
     { enabled: sessionData?.user !== undefined },
@@ -78,6 +81,40 @@ const AuthShowcase: React.FC = () => {
       >
         {sessionData ? "Sign out" : "Sign in"}
       </button>
+
+      <div className={styles.authLinks}>
+        <a
+          href="https://next-auth.js.org"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Documentation
+        </a>
+        <span className={styles.divider}>|</span>
+        <a
+          href="https://next-auth.js.org/providers/google"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Google
+        </a>
+        <span className={styles.divider}>|</span>
+        <a
+          href="https://next-auth.js.org/providers/github"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          GitHub
+        </a>
+        <span className={styles.divider}>|</span>
+        <a
+          href="https://next-auth.js.org/providers/twitter"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Twitter
+        </a>
+        </div>
     </div>
   );
 };
