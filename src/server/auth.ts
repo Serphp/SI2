@@ -59,6 +59,7 @@ export const authOptions: NextAuthOptions = {
     DiscordProvider({
       clientId: env.DISCORD_CLIENT_ID,
       clientSecret: env.DISCORD_CLIENT_SECRET,
+      //redirectUri: env.DISCORD_REDIRECT_URI,
     }),
     GoogleProvider({
       clientId: env.GOOGLE_CLIENT_ID,

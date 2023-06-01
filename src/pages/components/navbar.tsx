@@ -1,33 +1,76 @@
+/* eslint-disable @next/next/no-img-element */
 // Navbar.tsx
 
-import { useSession } from 'next-auth/react';
+import { useSession, signIn, signOut } from 'next-auth/react';
 import Link from 'next/link';
-import React from 'react';
+//import { api } from '~/utils/api';
+
 
 const Navbar = () => {
 
+
   const { data: sessionData } = useSession();
+  console.log(sessionData);
+
+    
   return (
-    <nav>
-        <div className="nav-wrapper">
-            <a href="#" className="brand-logo">
-              <img className='logo' src="https://cdn.svgporn.com/logos/codesee-icon.svg" alt="logo" />
-            </a>
-            <ul id="nav-mobile" className="menu">
-                <li className='nav-link'><Link href="/about">About</Link></li>
-                <li className='nav-link'><Link href="badges.html">Components</Link></li>
-                <li className='nav-link'><Link href="collapsible.html">JavaScript</Link></li>
-                <li className='nav-link'> {
+    <>
+<section data-spy="scroll" data-target=".navbar" data-offset="40" id="home">
+
+<nav id="scrollspy" className="navbar navbar-light navbar-expand-lg" data-spy="affix" data-offset-top="20">
+    <div className="container">
+        <a className="navbar-brand" href="#">
+            <img src="https://cdn.svgporn.com/logos/linear-icon.svg" alt="" className="brand-img" /></a>
+            
+        <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span className="navbar-toggler-icon"></span>
+        </button>
+
+        <div className="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul className="navbar-nav ml-auto">
+                <li className="nav-item">
+                    <Link className="nav-link" href="/">Home</Link>
+                </li>
+                <li className="nav-item">
+                    <Link className="nav-link" href="/about">About</Link>
+                </li>
+                <li className="nav-item">
+                    <Link className="nav-link" href="/services">Services</Link>
+                </li>
+                <li className="nav-item">
+                    <Link className="nav-link" href="/contact">Contact</Link>
+                </li>
+                
+                
+                {
+                sessionData ? "" : <Link className='navbtn ml-0 ml-lg-4' href="/api/auth/signin">Sign in</Link>
+                }
+
+                <li className='nav-item '> {
                 sessionData && 
                 <div className='navcon'>
-                {sessionData.user?.name}
-                <img className='navimg' src={sessionData.user?.image} alt="profile" />
+                  <Link className="nav-link" href={`/user/${sessionData.user?.id}`}>{sessionData.user?.name}</Link>
+                
+                <img className='navimg' src={sessionData.user?.image ?? ''} alt="profile" />
+                <button onClick={sessionData ? () => void signOut() : () => void signIn()}>
+                {
+                sessionData ? "Sign out" : "Sign in"}
+                </button>
+                {
+                sessionData &&
+                <Link className="nav-link" href={`/user/${sessionData.user?.id}/edit`}>Edit</Link>
+                }
                 </div>
-                } </li>
+                } 
+                </li>
             </ul>
         </div>
+    </div>
+</nav>
 
-    </nav>
+</section>
+
+    </>
   );
 };
 

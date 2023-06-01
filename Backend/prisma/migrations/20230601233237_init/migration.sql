@@ -1,13 +1,4 @@
 -- CreateTable
-CREATE TABLE `Example` (
-    `id` VARCHAR(191) NOT NULL,
-    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
-    `updatedAt` DATETIME(3) NOT NULL,
-
-    PRIMARY KEY (`id`)
-) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-
--- CreateTable
 CREATE TABLE `Account` (
     `id` VARCHAR(191) NOT NULL,
     `userId` VARCHAR(191) NOT NULL,
@@ -50,6 +41,21 @@ CREATE TABLE `User` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
+CREATE TABLE `Post` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `updatedAt` DATETIME(3) NOT NULL,
+    `title` VARCHAR(191) NOT NULL,
+    `content` VARCHAR(191) NULL,
+    `published` BOOLEAN NOT NULL DEFAULT false,
+    `viewCount` INTEGER NOT NULL DEFAULT 0,
+    `userId` VARCHAR(191) NOT NULL,
+
+    UNIQUE INDEX `Post_userId_key`(`userId`),
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
 CREATE TABLE `VerificationToken` (
     `identifier` VARCHAR(191) NOT NULL,
     `token` VARCHAR(191) NOT NULL,
@@ -64,3 +70,6 @@ ALTER TABLE `Account` ADD CONSTRAINT `Account_userId_fkey` FOREIGN KEY (`userId`
 
 -- AddForeignKey
 ALTER TABLE `Session` ADD CONSTRAINT `Session_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `User`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `Post` ADD CONSTRAINT `Post_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `User`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
