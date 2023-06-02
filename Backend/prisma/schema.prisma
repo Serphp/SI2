@@ -56,7 +56,7 @@ model User {
   accounts      Account[]
   sessions      Session[]
   posts         Post[]
-  //profile       Profile?
+  profile       Profile?
 }
 
 model Post {
@@ -71,12 +71,12 @@ model Post {
   userId    String   @unique
 }
 
-// model Profile {
-//   id     Int     @id @default(autoincrement())
-//   bio    String?
-//   user   User    @relation(fields: [userId], references: [id])
-//   userId String  @unique
-// }
+model Profile {
+  id     Int     @id @default(autoincrement())
+  bio    String?
+  user   User    @relation(fields: [userId], references: [id])
+  userId String  @unique
+}
 
 model VerificationToken {
   identifier String

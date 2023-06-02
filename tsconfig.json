@@ -16,6 +16,10 @@
     "jsx": "preserve",
     "incremental": true,
     "noUncheckedIndexedAccess": true,
+    //
+    "sourceMap": true,
+    "outDir": "/Backend/dist",
+    
     "baseUrl": ".",
     "paths": {
       "~/*": ["./src/*"]

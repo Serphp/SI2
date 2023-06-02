@@ -31,7 +31,7 @@ app.post(`/post`, async (req, res) => {
     data: {
       title,
       content,
-      author: { connect: { email: authorEmail } },
+      user: { connect: { email: authorEmail } },
     },
   })
   res.json(result)
@@ -98,7 +98,7 @@ app.get('/user/:id/drafts', async (req, res) => {
   const drafts = await prisma.user
     .findUnique({
       where: {
-        id: Number(id),
+        id: String(id),
       },
     })
     .posts({
@@ -134,7 +134,7 @@ app.get('/feed', async (req, res) => {
       published: true,
       ...or,
     },
-    include: { author: true },
+    include: { user: true },
     take: Number(take) || undefined,
     skip: Number(skip) || undefined,
     orderBy: {
