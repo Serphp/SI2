@@ -1,0 +1,132 @@
+.page {
+    display: flex;
+    flex-direction: column;
+    background: white;
+    padding: 3rem;
+    justify-content: center;
+    align-items: center;
+  }
+
+  input[type="text"],
+  textarea {
+    width: 100%;
+    padding: 0.5rem;
+    margin: 0.5rem 0;
+    border-radius: 0.25rem;
+    border: 0.125rem solid rgba(0, 0, 0, 0.2);
+  }
+
+  input[type="submit"] {
+    background: #ececec;
+    border: 0;
+    padding: 1rem 2rem;
+  }
+
+  .back {
+    margin-left: 1rem;
+  }
+
+  .contenedor {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  .contitle{
+    display: flex;
+
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .post {
+    border: red solid 1px;
+    padding: 1rem;
+
+    background: white;
+    transition: box-shadow 0.1s ease-in;
+    .post__img {
+      width: 200px;
+      height: 200px;
+      margin-right: 1rem;
+    }
+    .post__text {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+
+    }
+    .post__text__title {
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+    .post__text__description {
+      font-size: 1rem;
+      color: gray;
+    }
+    .post__text__date {
+      font-size: 0.8rem;
+      color: gray;
+    }
+    .post__text__author {
+      font-size: 0.8rem;
+      color: gray;
+    }
+
+  }
+
+  .post:hover {
+    box-shadow: 1px 1px 3px #aaa;
+  }
+
+  .post + .post {
+    margin-top: 2rem;
+  }
+
+  .bold {
+    font-weight: bold;
+  }
+
+  a {
+    text-decoration: none;
+    color: #000;
+    display: inline-block;
+  }
+
+  .left a[data-active="true"] {
+    color: gray;
+  }
+
+  a + a {
+    margin-left: 1rem;
+  }
+
+  .right {
+    margin-left: auto;
+  }
+
+  .right a {
+    border: 1px solid black;
+    padding: 0.5rem 1rem;
+    border-radius: 3px;
+  }
+
+  p {
+    display: inline-block;
+    font-size: 13px;
+    padding-right: 1rem;
+  }
+
+  button {
+    border: none;
+  }
+
+  .nav2 {
+    display: flex;
+    padding: 2rem;
+    align-items: center;
+  }
