@@ -17,6 +17,21 @@ export const userRouter = createTRPCRouter({
       })
     }),
 
+    getProfile: publicProcedure
+    .input(z.object({
+      id: z.number(),
+    }))
+    .query(async ({ input,ctx }) => {
+      return ctx.prisma.profile.findUnique({
+        where: {
+          id: input.id,
+        },
+        include: {
+          user: true,
+        }
+      })}
+    ),
+
   getUser: publicProcedure
     .input(z.object({
       id: z.number(),
@@ -36,8 +51,6 @@ export const userRouter = createTRPCRouter({
 
     editProfile: publicProcedure
     .input(z.object({
-
-      //id: z.number(),
       email: z.string().email(),
       name: z.string(),
       lastname: z.string(),
@@ -50,11 +63,7 @@ export const userRouter = createTRPCRouter({
     }))
     .mutation(({ input, ctx }) => {
       return ctx.prisma.profile.create({
-        // where: {
-        //   id: input.id,
-        // },
         data: {
-
           name: input.name,
           lastname: input.lastname,
           age: input.age,

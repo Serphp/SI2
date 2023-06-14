@@ -1,21 +1,58 @@
-import { useSession } from 'next-auth/react';
-import Router from 'next/router';
+import { getSession, useSession } from 'next-auth/react';
+import { type GetServerSideProps } from 'next';
+import Router, { useRouter } from 'next/router';
 import { api } from '~/utils/api';
 import Layout from '~/pages/components/Layout';
-import { useState } from 'react';
+import { JSXElementConstructor, Key, PromiseLikeOfReactNode, ReactElement, ReactFragment, ReactPortal, useState } from 'react';
+import { prisma } from '~/server/db';
 
+export const getServerSideProps: GetServerSideProps = async ({req, res}) => {
+  const session = await getSession({ req });
+  if (!session) {
+    res.statusCode = 403;
+    return { props: { getProfile: [] } };
+  }
+  const getProfile = await prisma.profile.findMany({
+    where: {
+      userId: Number(session?.user?.id),
+    },
+  });
+  return {
+    props: { getProfile },
+  };
+}
 
-function UserProfilePage() {
+type Props = {
+  getProfile: any;
+};
 
+type Profile = {
+  id: number;
+  name: string;
+  lastname: string;
+  age: number;
+  bio: string;
+  location: string;
+  //avatar: string;
+  //date: Date;
+};
+  
+
+const UserProfilePage: React.FC<Props> = (props) => {
+
+    //const id = useRouter().query.id
+    //const getProfile = api.user.getProfile.useQuery(id);
+    //console.log("drafts", props)
     const editProfile = api.user.editProfile.useMutation();
-
+    const profile = props.getProfile;
+    console.log("profile", profile)
     const { data: session, status: loading } = useSession();
 
     const [name, setName] = useState("")
     const [lastname, setLastName] = useState("")
-    const [age, setAge] = useState(18)
-    const [bio, setBio] = useState('I am a new user')
-    const [location, setLocation] = useState('Eart')
+    const [age, setAge] = useState(Number("18"));
+    const [bio, setBio] = useState('')
+    const [location, setLocation] = useState('')
     //const [avatar, setAvatar] = useState("")
     //const [date, setDate] = useState(new Date());
 
@@ -34,9 +71,15 @@ function UserProfilePage() {
       {
         session ? (
           <div>
-        <h1>Perfil de usuario</h1>
+        <h1>Perfil de usuario 
+
+        </h1>
         <Layout>
-        <form
+        {
+            profile.map((profile : Profile) => (
+              <div key={profile.id}>
+                
+                <form
           onSubmit={async (e) => {
             e.preventDefault()
               await editProfile.mutateAsync({
@@ -57,35 +100,35 @@ function UserProfilePage() {
             <input
                 autoFocus
                 onChange={(e) => setName(e.target.value)}
-                placeholder="Name"
+                placeholder={profile.name}
                 type="text"
                 value={name}
             />
             <input
                 autoFocus
                 onChange={(e) => setLastName(e.target.value)}
-                placeholder="Last Name"
+                placeholder={profile.lastname}
                 type="text"
                 value={lastname}
             />
             <input
                 autoFocus
                 onChange={(e) => setAge(Number(e.target.value))}
-                placeholder="Age"
+                placeholder={profile.age.toString()}
                 type="number"
-                value={age}
+                value={profile.age.toString() || `${age}`}
             />
             <input
                 autoFocus
                 onChange={(e) => setLocation(e.target.value)}
-                placeholder="Location"
+                placeholder={profile.location}
                 type="text"
                 value={location}
             />
             <input
                 autoFocus
                 onChange={(e) => setBio(e.target.value)}
-                placeholder="Bio"
+                placeholder={profile.bio}
                 type="text"
                 value={bio}
             />
@@ -113,7 +156,10 @@ function UserProfilePage() {
             </a>
 
             </form>
-
+              </div>
+            ))
+          }
+      
         </Layout>
           </div>
         ) : (
