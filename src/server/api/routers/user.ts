@@ -37,33 +37,35 @@ export const userRouter = createTRPCRouter({
     editProfile: publicProcedure
     .input(z.object({
 
-      userId: z.number(),
+      //id: z.number(),
       email: z.string().email(),
       name: z.string(),
       lastname: z.string(),
       age: z.number(),
       bio: z.string(),
       location: z.string(),
-      avatar: z.string(),
       //date: z.date(),
+      //avatar: z.string(),
+      //portada: z.string(),
     }))
     .mutation(({ input, ctx }) => {
-      return ctx.prisma.user.update({
-        where: {
-          id: input.userId,
-          email: input.email
-        },
+      return ctx.prisma.profile.create({
+        // where: {
+        //   id: input.id,
+        // },
         data: {
-          name: input.name ? input.name : undefined,
-          lastname: input.lastname ? input.lastname : undefined,
-          age: input.age ? input.age : undefined,
-          bio: input.bio ? input.bio : undefined,
-          location: input.location ? input.location : undefined,
-          avatar: input.avatar ? input.avatar : undefined,
+
+          name: input.name,
+          lastname: input.lastname,
+          age: input.age,
+          bio: input.bio,
+          location: input.location,
+          //avatar: input.avatar,
+          //portada: input.portada,
           //date: input.date ? input.date : undefined,
-          User: {
+          user: {
             connect: {
-              id: input.userId  // Usar "userId" en lugar de "email"
+              email: input.email
             }
           }
         }

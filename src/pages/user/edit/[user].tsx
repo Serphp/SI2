@@ -1,15 +1,11 @@
 import { useSession } from 'next-auth/react';
-import Router, { useRouter } from 'next/router';
+import Router from 'next/router';
 import { api } from '~/utils/api';
 import Layout from '~/pages/components/Layout';
-import { use, useState } from 'react';
-import { number } from 'zod';
-
+import { useState } from 'react';
 
 
 function UserProfilePage() {
-    const router = useRouter();
-    const id = useRouter().query.id
 
     const editProfile = api.user.editProfile.useMutation();
 
@@ -20,14 +16,10 @@ function UserProfilePage() {
     const [age, setAge] = useState(18)
     const [bio, setBio] = useState('I am a new user')
     const [location, setLocation] = useState('Eart')
-    const [avatar, setAvatar] = useState("")
-    //const [date, setDate] = useState(Number(Date.now()))
-
-
-    console.log(id)
+    //const [avatar, setAvatar] = useState("")
+    //const [date, setDate] = useState(new Date());
 
   return (
-
 
     <div>
       
@@ -47,16 +39,15 @@ function UserProfilePage() {
         <form
           onSubmit={async (e) => {
             e.preventDefault()
-            await editProfile.mutateAsync({
-                id: Number(id),
+              await editProfile.mutateAsync({
                 email: session?.user?.email ?? "Author's Email",
                 name,
                 lastname,
                 age,
                 bio,
                 location,
-                avatar,
-                //date
+                //avatar,
+                //date: date,
             })
             //console.log("editProfile", editProfile)
             Router.push("/")
@@ -79,7 +70,7 @@ function UserProfilePage() {
             />
             <input
                 autoFocus
-                onChange={(e) => setAge(e.target.value)}
+                onChange={(e) => setAge(Number(e.target.value))}
                 placeholder="Age"
                 type="number"
                 value={age}
@@ -99,21 +90,21 @@ function UserProfilePage() {
                 value={bio}
             />
             {/* <input
-                autoFocus
-                onChange={(e) => setDate(e.target.value)}
-                placeholder="Date"
-                type="date"
-                value={date}
+              autoFocus
+              onChange={(e) => setDate(new Date(e.target.value))}
+              placeholder="Date"
+              type="date"
+              value={`${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`}
             /> */}
-            <input
+            {/* <input
                 autoFocus
                 onChange={(e) => setAvatar(e.target.value)}
                 placeholder="Avatar"
                 type="text"
                 value={avatar}
-            />
+            /> */}
             <input
-                disabled={!name || !lastname || !location || !bio || !date || !avatar}
+                disabled={!name || !lastname || !location || !bio || !age || editProfile.isLoading}
                 type="submit"
                 value="Edit"
             />

@@ -78,19 +78,17 @@ model Post {
 }
 
 model Profile {
-  id       Int      @id @default(autoincrement())
-  name     String
-  lastname String // Cambiado a "lastname" en lugar de "name"
-  age      Int      @default(18)
-  date     DateTime @default(now())
-  location String   @default("Earth")
-  bio      String   @default("I'm a new user")
-  avatar   String   @default("https://cataas.com/cat/GPz9v7NpZ8F7xLFi/says/hello%20world")
-  portada  String   @default("https://pits-agroforestal.net/wp-content/themes/merlin/images/default-slider-image.png")
-  userId   Int      @unique
-  user     User     @relation(fields: [userId], references: [id])
-
-  @@map("profiles")
+  id       Int     @id @default(autoincrement())
+  name     String?
+  lastname String?
+  age      Int     @default(18)
+  //date     DateTime @default(now())
+  location String
+  bio      String
+  //avatar   String   @default("https://cataas.com/cat/GPz9v7NpZ8F7xLFi/says/hello%20world")
+  //portada  String   @default("https://pits-agroforestal.net/wp-content/themes/merlin/images/default-slider-image.png")
+  user     User?   @relation(fields: [userId], references: [id])
+  userId   Int     @unique
 }
 
 //Commented out for now

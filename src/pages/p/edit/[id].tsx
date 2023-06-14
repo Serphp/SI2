@@ -11,13 +11,9 @@ function Edit() {
     const [title, setTitle] = useState("")
     const [content, setContent] = useState("")
     const [editPost, setEditPost] = useState(true)
-    //const [authorEmail, setAuthorEmail] = useState("")
-  
-    //const createDraftMutation = api.post.updatePost.useMutation()
+
     const updatePostMutation = api.post.updatePost.useMutation()
 
-    //console.log("updatePostMutation", updatePostMutation)
-    //console.log(title, content)
   
     return (
       <Layout>
