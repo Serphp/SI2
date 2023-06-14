@@ -1,4 +1,4 @@
-/* eslint-disable @next/next/no-img-element */
+
 // Navbar.tsx
 
 import { useSession, signIn, signOut } from 'next-auth/react';
@@ -10,7 +10,7 @@ const Navbar = () => {
 
 
   const { data: sessionData } = useSession();
-  console.log(sessionData);
+  //console.log(sessionData);
 
     
   return (
@@ -57,8 +57,8 @@ const Navbar = () => {
                 sessionData ? "Sign out" : "Sign in"}
                 </button>
                 {
-                sessionData &&
-                <Link className="nav-link" href={`/user/${sessionData.user?.id}/edit`}>Edit</Link>
+                    sessionData &&
+                    <Link className="nav-link" href={`/user/edit/${sessionData.user?.id}`}>Edit</Link>
                 }
                 </div>
                 } 
@@ -69,6 +69,9 @@ const Navbar = () => {
 </nav>
 
 </section>
+
+<div className='espacio'></div>
+
 
     </>
   );

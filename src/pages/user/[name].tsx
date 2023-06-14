@@ -1,23 +1,39 @@
-import { useSession } from 'next-auth/react';
+import { useSession, getSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
+import { api } from '~/utils/api';
 import { type GetServerSideProps } from 'next';
-//import { prisma } from '~/utils/prisma';
+import { prisma } from '~/server/db';
 
 
-const UserProfilePage = () => {
+
+function UserProfilePage() {
+
+  const id = useRouter().query.id
+
+  const editProfile = api.user.editProfile.useMutation()
 
   const router = useRouter();
   const { data: session, status: loading } = useSession();
 
-  if (!loading && !session) {
-    return <div>Acceso denegado. Por favor, inicia sesión.</div>;
-  }
-
   const { name } = router.query;
 
+
   return (
+
+
     <div>
       
+      {
+        loading === 'loading' && (
+          <div>
+            Loading...
+          </div>
+        )
+      }
+
+      {
+        session ? (
+          <div>
       <h1>Perfil de usuario</h1>
       <p>Nombre: {name}</p>
       {session?.user?.image && (
@@ -28,10 +44,20 @@ const UserProfilePage = () => {
       <p>Nombre: {session?.user?.email}</p>
       <p>Nombre: {session?.user?.image}</p>
 
+      <h1>Profile Page</h1>
 
+      <p>Name: {name}</p>
+      {/* <p>Email: {email}</p> */}
+
+          </div>
+        ) : (
+          <div>
+            Not authenticated
+          </div>
+        )
+      }
     </div>
   );
 };
-
 
 export default UserProfilePage;

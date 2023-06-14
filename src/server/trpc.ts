@@ -1,7 +1,7 @@
 import { initTRPC } from "@trpc/server";
 import superjson from "superjson";
 import { type CreateNextContextOptions } from "@trpc/server/adapters/next";
-import { prisma } from "../db";
+import { prisma } from "./db";
 
 type CreateContextOptions = Record<string, never>;
 

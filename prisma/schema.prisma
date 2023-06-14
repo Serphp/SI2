@@ -1,0 +1,116 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["jsonProtocol"]
+}
+
+// datasource db {
+//     provider = "sqlite"
+//     // NOTE: When using mysql or sqlserver, uncomment the @db.Text annotations in model Account below
+//     // Further reading:
+//     // https://next-auth.js.org/adapters/prisma#create-the-prisma-schema
+//     // https://www.prisma.io/docs/reference/api-reference/prisma-schema-reference#string
+//     url      = env("DATABASE_URL")
+// }
+
+datasource db {
+  provider = "mysql"
+  url      = "mysql://root:@localhost:3306/sidb"
+}
+
+// Necessary for Next auth
+model Account {
+  id                 Int     @id @default(autoincrement())
+  userId             Int     @map("user_id")
+  type               String
+  provider           String
+  providerAccountId  String  @map("provider_account_id")
+  refresh_token      String?
+  access_token       String?
+  expires_at         Int?
+  token_type         String?
+  scope              String?
+  id_token           String?
+  session_state      String?
+  oauth_token_secret String?
+  oauth_token        String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@map("accounts")
+}
+
+model Session {
+  id           Int      @id @default(autoincrement())
+  sessionToken String   @unique @map("session_token")
+  userId       Int      @map("user_id")
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("sessions")
+}
+
+model User {
+  id            Int       @id @default(autoincrement())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+  Role          String    @default("user")
+  accounts      Account[]
+  sessions      Session[]
+  posts         Post[]
+  profiles      Profile?
+  //tickets       Tickets[]
+}
+
+model Post {
+  id        Int     @id @default(autoincrement())
+  title     String
+  content   String?
+  published Boolean @default(false)
+  editPost  Boolean @default(false)
+  author    User?   @relation(fields: [authorId], references: [id])
+  authorId  Int?
+}
+
+model Profile {
+  id       Int      @id @default(autoincrement())
+  name     String
+  lastname String // Cambiado a "lastname" en lugar de "name"
+  age      Int      @default(18)
+  date     DateTime @default(now())
+  location String   @default("Earth")
+  bio      String   @default("I'm a new user")
+  avatar   String   @default("https://cataas.com/cat/GPz9v7NpZ8F7xLFi/says/hello%20world")
+  portada  String   @default("https://pits-agroforestal.net/wp-content/themes/merlin/images/default-slider-image.png")
+  userId   Int      @unique
+  user     User     @relation(fields: [userId], references: [id])
+
+  @@map("profiles")
+}
+
+//Commented out for now
+
+// model Tickets {
+//   id          Int     @id @default(autoincrement())
+//   title       String
+//   description String?
+//   status      String  @default("open")
+//   author      User?   @relation(fields: [authorId], references: [id])
+//   authorId    Int?
+
+//   @@map("tickets")
+// }
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+  @@map("verificationtokens")
+}

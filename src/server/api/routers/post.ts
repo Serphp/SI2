@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { createTRPCRouter, publicProcedure } from "../trpc";
+import { createTRPCRouter, publicProcedure } from "../../trpc";
 import { prisma } from "../../db";
 
 export const postRouter = createTRPCRouter({
@@ -65,6 +65,28 @@ export const postRouter = createTRPCRouter({
   /**
    * mutations
    */
+
+  updatePost: publicProcedure
+  .input(z.object({
+    id: z.number(),
+    title: z.string(),
+    content: z.string().nullable(),
+    editPost: z.boolean(),
+    }))
+  .mutation(({ input, ctx }) => {
+    return ctx.prisma.post.update({
+        where: {
+            id: input.id,
+        },
+        data: {
+            title: input.title,
+            content: input.content,
+            editPost: input.editPost,
+        },
+    })
+    }),
+
+
   createDraft: publicProcedure
     .input(z.object({
       title: z.string(),
@@ -84,6 +106,7 @@ export const postRouter = createTRPCRouter({
         }
       })
     }),
+
   publish: publicProcedure
     .input(z.object({
       id: z.number()
