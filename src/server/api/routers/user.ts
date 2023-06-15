@@ -49,7 +49,37 @@ export const userRouter = createTRPCRouter({
       })}
     ),
 
-    editProfile: publicProcedure
+    updateProfile: publicProcedure
+    .input(z.object({
+      id: z.number(),
+      name: z.string(),
+      lastname: z.string(),
+      age: z.number(),
+      bio: z.string(),
+      location: z.string(),
+      //date: z.date(),
+      //avatar: z.string(),
+      //portada: z.string(),
+    }))
+    .mutation(({ input, ctx }) => {
+      return ctx.prisma.profile.update({
+        where: {
+          id: input.id
+        },
+        data: {
+          name: input.name,
+          lastname: input.lastname,
+          age: input.age,
+          bio: input.bio,
+          location: input.location,
+          //avatar: input.avatar,
+          //portada: input.portada,
+          //date: input.date ? input.date : undefined,
+        }
+      })
+    }),
+
+    createProfile: publicProcedure
     .input(z.object({
       email: z.string().email(),
       name: z.string(),

@@ -3,7 +3,7 @@ import { type GetServerSideProps } from 'next';
 import Router, { useRouter } from 'next/router';
 import { api } from '~/utils/api';
 import Layout from '~/pages/components/Layout';
-import { JSXElementConstructor, Key, PromiseLikeOfReactNode, ReactElement, ReactFragment, ReactPortal, useState } from 'react';
+import { JSXElementConstructor, Key, PromiseLikeOfReactNode, ReactElement, ReactFragment, ReactNode, ReactPortal, useState } from 'react';
 import { prisma } from '~/server/db';
 
 export const getServerSideProps: GetServerSideProps = async ({req, res}) => {
@@ -43,9 +43,10 @@ const UserProfilePage: React.FC<Props> = (props) => {
     //const id = useRouter().query.id
     //const getProfile = api.user.getProfile.useQuery(id);
     //console.log("drafts", props)
-    const editProfile = api.user.editProfile.useMutation();
+    const updateProfile = api.user.updateProfile.useMutation();
+    const editProfile = api.user.createProfile.useMutation();
     const profile = props.getProfile;
-    console.log("profile", profile)
+    //console.log("profile", profile)
     const { data: session, status: loading } = useSession();
 
     const [name, setName] = useState("")
@@ -55,6 +56,12 @@ const UserProfilePage: React.FC<Props> = (props) => {
     const [location, setLocation] = useState('')
     //const [avatar, setAvatar] = useState("")
     //const [date, setDate] = useState(new Date());
+
+    // let editp = (
+    //   <div>
+    //     <h1> hola </h1>
+    //   </div>
+    // )
 
   return (
 
@@ -68,34 +75,41 @@ const UserProfilePage: React.FC<Props> = (props) => {
         )
       }
 
+
       {
         session ? (
           <div>
-        <h1>Perfil de usuario 
 
-        </h1>
         <Layout>
-        {
-            profile.map((profile : Profile) => (
-              <div key={profile.id}>
-                
-                <form
-          onSubmit={async (e) => {
-            e.preventDefault()
-              await editProfile.mutateAsync({
-                email: session?.user?.email ?? "Author's Email",
-                name,
-                lastname,
-                age,
-                bio,
-                location,
-                //avatar,
-                //date: date,
-            })
-            //console.log("editProfile", editProfile)
-            Router.push("/")
-          }}
-        >
+          {
+              profile.map((profile : Profile) => (
+                <div key={profile.id}>
+
+              <form
+                onSubmit={async (e) => {
+                  e.preventDefault()
+                  if (name === "") {
+                      await editProfile.mutateAsync({
+                        email: session?.user?.email ?? "Author's Email",
+                        name,
+                        lastname,
+                        age,
+                        bio,
+                        location,
+                  })
+                } else {
+                  await updateProfile.mutateAsync({
+                    id: profile.id,
+                    name,
+                    lastname,
+                    age,
+                    bio,
+                    location,
+                  })
+              Router.push("/")
+            }}
+          }
+          >
             <h1>Edit Profile</h1>
             <input
                 autoFocus
