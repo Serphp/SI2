@@ -50,11 +50,19 @@ const Post = () => {
             }}>
             Delete
           </button>
+
+          <button
+            className="btnp"
+            onClick={() => Router.push("/Temas")}>
+            Back
+          </button>
+
           <button 
           className="btnp"
           onClick={() => Router.push("/p/edit/[id]", `/p/edit/${post?.id}`)}>
               Update
           </button>
+
         </div>
         </section>
 
