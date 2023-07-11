@@ -86,7 +86,7 @@ const Header: React.FC = () => {
   }
 
   return (
-    <div className="nav2">
+    <div className="nav2 tm-bgcolor-1">
       {left}
       {right}
     </div>

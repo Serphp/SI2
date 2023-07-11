@@ -20,13 +20,13 @@ const Post: React.FC<{ post: PostProps }> = ({ post }) => {
 
     <>
 
-    <div onClick={() => Router.push("/p/[id]", `/p/${post.id}`)}>
-      <div className="contitle">
-        <h2 className="post__text__title">{post.title}</h2>
-        <small>By {authorName}</small>
-      </div>
-      <ReactMarkdown className="post__text__description" children={post.content} />
+  <div onClick={() => Router.push("/p/[id]", `/p/${post.id}`)}>
+    <div className="contitle">
+      <h2 className="post__text__title">{post.title}</h2>
+      <small>By {authorName}</small>
     </div>
+    <ReactMarkdown className="post__text__description" children={post.content} />
+  </div>
 
     </>
 

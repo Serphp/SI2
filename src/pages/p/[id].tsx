@@ -19,9 +19,15 @@ const Post = () => {
   const authorName = post?.author ? post?.author.name : "Unknown author"
   return (
     <Layout>
-      <div>
-        <h2>{title}</h2>
+      <section className="">
+      <div className="contact tm-bgcolor-3 tm-border-rounded">
+      <div className="contitle">
+      <h2>{title}</h2>
         <p>By {authorName}</p>
+			</div>
+
+      <hr />
+
         <p>{post?.content}</p>
         {!post?.published && (
           <button
@@ -33,42 +39,25 @@ const Post = () => {
             Publish
           </button>
         )}
+       
+       </div>
+       <div className="botones">
         <button
-          onClick={async () => {
-            await deletePostMutation.mutateAsync({ id: Number(id) })
-            Router.push("/")
-          }}
-        >
-          Delete
-        </button>
-        <button 
-        onClick={() => Router.push("/p/edit/[id]", `/p/edit/${post?.id}`)}
-        >
-            Update
-        </button>
+            className="btnp"
+            onClick={async () => {
+              await deletePostMutation.mutateAsync({ id: Number(id) })
+              Router.push("/")
+            }}>
+            Delete
+          </button>
+          <button 
+          className="btnp"
+          onClick={() => Router.push("/p/edit/[id]", `/p/edit/${post?.id}`)}>
+              Update
+          </button>
+        </div>
+        </section>
 
-      </div>
-      <style jsx>{`
-        .page {
-          background: white;
-          padding: 2rem;
-        }
-
-        .actions {
-          margin-top: 2rem;
-        }
-
-        button {
-          background: #ececec;
-          border: 0;
-          border-radius: 0.125rem;
-          padding: 1rem 2rem;
-        }
-
-        button + button {
-          margin-left: 1rem;
-        }
-      `}</style>
     </Layout>
   )
 }
