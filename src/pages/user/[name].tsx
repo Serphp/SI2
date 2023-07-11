@@ -57,7 +57,7 @@ const UserProfilePage: React.FC<Props> = (props) => {
 
       {
         session ? (
-          <div>
+          <div className='tm-bgcolor-2 tm-border-rounded'>
             {
               profile.map((profile: Profile) => (
                 <div key={profile.id} className='content'>
@@ -65,14 +65,15 @@ const UserProfilePage: React.FC<Props> = (props) => {
                   <div className='profile'>
                     <img src={session?.user?.image || undefined} className='img-thumbnail' alt="avatar" />
                       <span>
-                        <h1>{profile.name}</h1>
-                        <small>{profile.lastname}</small>
+                        <h2>Nombre: {profile.name}</h2>
+                        <p className='subtext'>Apellido: {profile.lastname}</p>
                       </span>
                   </div>
+                  
+                  <p className='subtext'>Edad: {profile.age}</p>
+                  <p className='subtext'>biografía: {profile.bio}</p>
+                  <p className='subtext'>País: {profile.location}</p>
 
-                  <h1>{profile.age}</h1>
-                  <h1>{profile.bio}</h1>
-                  <h1>{profile.location}</h1>
                 </div>
               ))
             }
