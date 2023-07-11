@@ -135,6 +135,7 @@ $primary : #f06161;
   .tab-content > .active {
     display: block;
   }
+  
   nav {
     position: fixed;
     top: 0;
@@ -151,6 +152,15 @@ $primary : #f06161;
     //align-items: center;
     justify-content: space-between;
     padding: 0.8rem 1rem;
+  }
+  
+  .navizq {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.8rem 1rem;
+    //border: red solid 1px;
+    width: 100%;
   }
   
   .navbar > .container,

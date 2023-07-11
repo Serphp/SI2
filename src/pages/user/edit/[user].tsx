@@ -3,10 +3,16 @@ import { type GetServerSideProps } from 'next';
 import Router, { useRouter } from 'next/router';
 import { api } from '~/utils/api';
 import Layout from '~/pages/components/Layout';
-import { JSXElementConstructor, Key, PromiseLikeOfReactNode, ReactElement, ReactFragment, ReactNode, ReactPortal, useState } from 'react';
+import { useState } from 'react';
 import { prisma } from '~/server/db';
 
+
+
 export const getServerSideProps: GetServerSideProps = async ({req, res}) => {
+  const router = useRouter();
+  //const { id } = router.query;
+  const id = useRouter().query.id
+  //console.log("router", id)
   const session = await getSession({ req });
   if (!session) {
     res.statusCode = 403;
@@ -14,7 +20,8 @@ export const getServerSideProps: GetServerSideProps = async ({req, res}) => {
   }
   const getProfile = await prisma.profile.findMany({
     where: {
-      userId: Number(session?.user?.id),
+      //userId: Number(session?.user?.id),
+      userId: Number(id),
     },
   });
   return {
@@ -36,13 +43,15 @@ type Profile = {
   //avatar: string;
   //date: Date;
 };
-  
+
 
 const UserProfilePage: React.FC<Props> = (props) => {
 
+
+
     //const id = useRouter().query.id
     //const getProfile = api.user.getProfile.useQuery(id);
-    //console.log("drafts", props)
+    console.log("drafts", props)
     const updateProfile = api.user.updateProfile.useMutation();
     const editProfile = api.user.createProfile.useMutation();
     const profile = props.getProfile;
@@ -51,7 +60,7 @@ const UserProfilePage: React.FC<Props> = (props) => {
 
     const [name, setName] = useState("")
     const [lastname, setLastName] = useState("")
-    const [age, setAge] = useState(Number("18"));
+    const [age, setAge] = useState(Number(""));
     const [bio, setBio] = useState('')
     const [location, setLocation] = useState('')
     //const [avatar, setAvatar] = useState("")
@@ -64,22 +73,11 @@ const UserProfilePage: React.FC<Props> = (props) => {
     // )
 
   return (
-
     <div>
-      
-      {
-        loading === 'loading' && (
-          <div>
-            Loading...
-          </div>
-        )
-      }
+      {loading === 'loading' && (<div>Loading...</div>)}
 
-
-      {
-        session ? (
-          <div>
-
+      {session ? (
+      <div>
         <Layout>
           {
               profile.map((profile : Profile) => (
@@ -98,40 +96,47 @@ const UserProfilePage: React.FC<Props> = (props) => {
                         location,
                   })
                 } else {
-                  await updateProfile.mutateAsync({
-                    id: profile.id,
-                    name,
-                    lastname,
-                    age,
-                    bio,
-                    location,
+                      await updateProfile.mutateAsync({
+                        id: profile.id,
+                        name,
+                        lastname,
+                        age,
+                        bio,
+                        location,
                   })
               Router.push("/")
             }}
           }
           >
             <h1>Edit Profile</h1>
+            <p>Profile ID: {profile.id}</p>
             <input
                 autoFocus
                 onChange={(e) => setName(e.target.value)}
                 placeholder={profile.name}
                 type="text"
                 value={name}
+                maxLength={16}
             />
+            <p> Last name</p>
             <input
                 autoFocus
                 onChange={(e) => setLastName(e.target.value)}
                 placeholder={profile.lastname}
                 type="text"
                 value={lastname}
+                maxLength={20}
             />
+            
             <input
                 autoFocus
                 onChange={(e) => setAge(Number(e.target.value))}
                 placeholder={profile.age.toString()}
                 type="number"
-                value={profile.age.toString() || `${age}`}
+                value={profile.age.toString()}
+
             />
+           
             <input
                 autoFocus
                 onChange={(e) => setLocation(e.target.value)}
@@ -139,13 +144,15 @@ const UserProfilePage: React.FC<Props> = (props) => {
                 type="text"
                 value={location}
             />
-            <input
-                autoFocus
-                onChange={(e) => setBio(e.target.value)}
-                placeholder={profile.bio}
-                type="text"
-                value={bio}
-            />
+            <p> Biografía </p>
+            <textarea
+                  cols={50}
+                  onChange={(e) => setBio(e.target.value)}
+                  placeholder={profile.bio}
+                  rows={8}
+                  value={bio}
+                />
+
             {/* <input
               autoFocus
               onChange={(e) => setDate(new Date(e.target.value))}

@@ -1,54 +1,81 @@
 import { useSession, getSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
-import { api } from '~/utils/api';
+// import { api } from '~/utils/api';
+import { useState, useEffect } from 'react';
 import { type GetServerSideProps } from 'next';
 import { prisma } from '~/server/db';
 
 
 
-function UserProfilePage() {
+export const getServerSideProps: GetServerSideProps = async ({req, res}) => {
 
-  const id = useRouter().query.id
+  const session = await getSession({ req });
+  if (!session) {
+    res.statusCode = 403;
+    return { props: { getProfile: [] } };
+  }
+  const getProfile = await prisma.profile.findMany({
+    where: {
+      userId: Number(session?.user?.id),
+    },
+  });
+  return {
+    props: { getProfile },
+  };
+}
 
-  const editProfile = api.user.editProfile.useMutation()
+type Profile = {
+  id: number;
+  name: string;
+  lastname: string;
+  age: number;
+  bio: string;
+  location: string;
+  //avatar: string;
+  //date: Date;
+};
 
-  const router = useRouter();
+type Props = {
+  getProfile: any;
+};
+
+const UserProfilePage: React.FC<Props> = (props) => {
+  
+  // const router = useRouter();
+  // const { id } = router.query;
+  // const [selectedProfileId, setSelectedProfileId] = useState(null);
   const { data: session, status: loading } = useSession();
+  const profile = props.getProfile;
 
-  const { name } = router.query;
+
 
 
   return (
-
-
     <div>
       
-      {
-        loading === 'loading' && (
-          <div>
-            Loading...
-          </div>
-        )
-      }
+      {loading === 'loading' && (<div>Loading...</div>)}
 
       {
         session ? (
           <div>
-      <h1>Perfil de usuario</h1>
-      <p>Nombre: {name}</p>
-      {session?.user?.image && (
-        <img src={session?.user?.image} alt="profile" />
-      )}
-      <p>Nombre: {session?.user?.id}</p>
-      <p>Nombre: {session?.user?.name}</p>
-      <p>Nombre: {session?.user?.email}</p>
-      <p>Nombre: {session?.user?.image}</p>
+            {
+              profile.map((profile: Profile) => (
+                <div key={profile.id} className='content'>
 
-      <h1>Profile Page</h1>
+                  <div className='profile'>
+                    <img src={session?.user?.image || undefined} className='img-thumbnail' alt="avatar" />
+                      <span>
+                        <h1>{profile.name}</h1>
+                        <small>{profile.lastname}</small>
+                      </span>
+                  </div>
 
-      <p>Name: {name}</p>
-      {/* <p>Email: {email}</p> */}
-
+                  <h1>{profile.age}</h1>
+                  <h1>{profile.bio}</h1>
+                  <h1>{profile.location}</h1>
+                </div>
+              ))
+            }
           </div>
         ) : (
           <div>

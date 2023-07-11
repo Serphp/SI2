@@ -73,17 +73,14 @@ const Header: React.FC = () => {
     );
     right = (
       <div className="right">
-        <p>
+        {/* <p>
           {session.user.name} ({session.user.email})
-        </p>
+        </p> */}
         <Link href="/create" legacyBehavior>
           <button>
             <a>New post</a>
           </button>
         </Link>
-        {/* <button onClick={() => signOut()}>
-          <a>Log out</a>
-        </button> */}
       </div>
     );
   }

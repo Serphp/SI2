@@ -5,50 +5,22 @@ const Home: React.FC = () => {
   return (
     <>
 
-    <div id="home" className="header">
-    <div className="overlay"></div>
+    <section className="tm-site-header tm-flex-center tm-mb-50 tm-bgcolor-1 tm-border-rounded">
+			<i className="fas fa-heart fa-3x"></i>
+			<h1> Portapapeles </h1>
+	</section>
 
-    <div id="header-carousel" className="carousel slide carousel-fade" data-ride="carousel">  
-        <div className="container">
-            <div className="carousel-inner">
-                <div className="carousel-item active">
-                    <div className="carousel-caption d-none d-md-block">
-                        <h1 className="carousel-title">
-                          Probando
-                        </h1>
-                        <button className="btnpage">Learn More</button>
-                    </div>
-                </div>
-                <div className="carousel-item">
-                    <div className="carousel-caption d-none d-md-block">
-                        <h1 className="carousel-title">
-                            We Make <br/> 
-                            Responsive Design</h1>
-                        <button className="btnpage">Learn More</button>
-                      </div>
-                </div>
-                <div className="carousel-item">
-                    <div className="carousel-caption d-none d-md-block">
-                        <h1 className="carousel-title">
+    <section className="tm-about tm-p-50 tm-bgcolor-2 tm-border-rounded">
+			<div className="tm-about-header tm-flex-center">
+				<i className="fas fa-users fa-2x"></i>
+				<h2>Acerca de</h2>
+			</div>
+			<div className="tm-about-text">
+				<p className="tm-mb-40"> ... </p>
+			</div>
+		</section>
 
-                            </h1>
-                        <button className="btnpage">Learn More</button>
-                      </div>
-                </div>
-            </div>
-        </div>        
-    </div>
 
-    <div className="infos container mb-4 mb-md-2">
-        <div className="title">
-            <h6 className="subtitle font-weight-normal">Are locking for</h6>
-            <h5>Lorem inpsum</h5>
-            <p className="font-small">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-        </div>
-
-    </div>
-</div>
-    
 <section className="section" id="about">
 
 

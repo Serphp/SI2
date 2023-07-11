@@ -71,6 +71,7 @@ model Post {
   id        Int     @id @default(autoincrement())
   title     String
   content   String?
+  image     String?
   published Boolean @default(false)
   editPost  Boolean @default(false)
   author    User?   @relation(fields: [authorId], references: [id])
@@ -78,17 +79,19 @@ model Post {
 }
 
 model Profile {
-  id       Int     @id @default(autoincrement())
-  name     String?
-  lastname String?
-  age      Int     @default(18)
+  id        Int      @id @default(autoincrement())
+  name      String?
+  lastname  String?
+  age       Int
   //date     DateTime @default(now())
-  location String
-  bio      String
+  location  String
+  bio       String
+  //createdAt DateTime @default(now())
+  //updatedAt DateTime
   //avatar   String   @default("https://cataas.com/cat/GPz9v7NpZ8F7xLFi/says/hello%20world")
   //portada  String   @default("https://pits-agroforestal.net/wp-content/themes/merlin/images/default-slider-image.png")
-  user     User?   @relation(fields: [userId], references: [id])
-  userId   Int     @unique
+  user      User?    @relation(fields: [userId], references: [id])
+  userId    Int      @unique
 }
 
 //Commented out for now

@@ -34,9 +34,6 @@ const AboutPage: React.FC<Props> = (props) => {
     // const getFullUser = api.example.getAllUser.useQuery();
     // const getUser = api.example.getUser.useQuery();
 
-
-    
-
     useEffect(() => {
         const fetchData = async () => {
             const res = await fetch('')
@@ -49,31 +46,15 @@ const AboutPage: React.FC<Props> = (props) => {
 
     return (
         <>
-<Layout>
-      <div className="">
-        <h1>Public Feed</h1>
-        <main>
+    <Layout>
+      <section>
           {props.feed.map((post) => (
             <div key={post.id} className="post">
               <Post post={post} />
             </div>
           ))}
-        </main>
-      </div>
-      <style jsx>{`
-        .post {
-          background: white;
-          transition: box-shadow 0.1s ease-in;
-        }
-
-        .post:hover {
-          box-shadow: 1px 1px 3px #aaa;
-        }
-
-        .post + .post {
-          margin-top: 2rem;
-        }
-      `}</style>
+      </section>
+        
     </Layout>
         </>
     )
